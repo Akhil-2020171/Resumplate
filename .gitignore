@@ -25,4 +25,4 @@ go.work.sum
 .env
 
 # trash directory
-trash 
+trash/
