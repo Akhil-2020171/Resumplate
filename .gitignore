@@ -27,4 +27,4 @@ go.sum
 .env
 
 # trash directory
-./trash 
+trash 
