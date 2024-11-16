@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/scripts.js" defer></script>
+    <title>Resume Template</title>
+</head>
+
+<body>
+    <form id="resumeForm" method="POST" onsubmit="submitForm(event)">
+        {{ .csrfField }} <!-- CSRF protection --> 
+        <fieldset>
+            <fieldset id="general-data">
+                <legend>Resume</legend>
+                <label for="FirstName">First Name:</label>
+                <input type="text" name="FirstName" id="FirstName" required>
+                <label for="LastName">Last Name:</label>
+                <input type="text" name="LastName" id="LastName" required>
+                <label for="Email">Email:</label>
+                <input type="email" name="Email" id="Email" required>
+                <label for="Phone">Phone:</label>
+                <input type="tel" name="Phone" id="Phone" required>
+                <label for="PersonalWebsite">Website:</label>
+                <input type="url" name="PersonalWebsite" id="PersonalWebsite">
+                <label for="Address">Address:</label>
+                <textarea name="Address" id="Address" rows="4" required></textarea>
+                <label for="Profile">Profile:</label>
+                <textarea name="Profile" id="Profile" rows="4" required></textarea>
+            </fieldset>
+
+            <fieldset id="experience-fields">
+                <legend>Experience</legend>
+                <div id="my-experiences">
+                    <div class="experience-entry">
+                        <label for="Company">Company:</label>
+                        <input type="text" name="Company" required>
+                        <label for="Position">Position:</label>
+                        <input type="text" name="Position" required>
+                        <label for="Website">Website:</label>
+                        <input type="url" name="Website">
+                        <label for="Experience-StartDate">Start Date:</label>
+                        <input type="date" name="Experience-StartDate" required>
+                        <label for="Experience-EndDate">End Date:</label>
+                        <input type="date" name="Experience-EndDate" required>
+                        <label for="Highlights">Highlights:</label>
+                        <textarea name="Highlights" required></textarea>
+                    </div>
+                </div>
+                <br>
+                <button type="button" onclick="addExperience()">Add More Experience</button>
+            </fieldset>
+
+            <fieldset id="education-fields">
+                <legend>Education</legend>
+                <div id="my-educations">
+                    <div class="education-entry">
+                        <label for="Institution">Institution:</label>
+                        <input type="text" name="Institution" required>
+                        <label for="Area">Area:</label>
+                        <input type="text" name="Area" required>
+                        <label for="StudyType">Study Type:</label>
+                        <select name="StudyType" required>
+                            <option value="Bachelor">Bachelor</option>
+                            <option value="Master">Master</option>
+                            <option value="Doctorate">Doctorate</option>
+                        </select>
+                        <label for="Education-StartDate">Start Date:</label>
+                        <input type="date" name="Education-StartDate" required>
+                        <label for="Education-EndDate">End Date:</label>
+                        <input type="date" name="Education-EndDate" required>
+                        <label for="GPA">GPA:</label>
+                        <input type="number" name="GPA" required>
+                    </div>
+                </div>
+                <br>
+                <button type="button" onclick="addEducation()">Add More Education</button>
+            </fieldset>
+
+            <fieldset id="skill-fields">
+                <legend>Skills</legend>
+                <div id="my-skills">
+                    <div class="skill-entry">
+                        <label for="Skill">Skill:</label>
+                        <input type="text" name="Skill" required>
+                        <label for="Level">Level:</label>
+                        <select name="Level" required>
+                            <option value="Beginner">Beginner</option>
+                            <option value="Intermediate">Intermediate</option>
+                            <option value="Advanced">Advanced</option>
+                        </select>
+                        <label for="Keywords">Keywords:</label>
+                        <input type="text" name="Keywords" required>
+                    </div>
+                </div>
+                <br>
+                <button type="button" onclick="addSkill()">Add More Skill</button>
+            </fieldset>
+
+            <fieldset id="language-fields">
+                <legend>Languages</legend>
+                <div id="my-languages">
+                    <div class="language-entry">
+                        <label for="Language">Language:</label>
+                        <input type="text" name="Language" required>
+                        <label for="Fluency">Fluency:</label>
+                        <select name="Fluency" required>
+                            <option value="beginner">Beginner</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="advanced">Advanced</option>
+                            <option value="fluent">Fluent</option>
+                        </select>
+                    </div>
+                </div>
+                <br>
+                <button type="button" onclick="addLanguage()">Add More Language</button>
+            </fieldset>
+
+            <fieldset id="projects-fields">
+                <legend>Projects</legend>
+                <div id="my-projects">
+                    <div class="project-entry">
+                        <label for="projectName">Project Name:</label>
+                        <input type="text" name="projectName" required>
+                        <label for="projectDescription">Project Description:</label>
+                        <textarea name="projectDescription" required></textarea>
+                        <label for="projectLink">Project Link:</label>
+                        <input type="url" name="projectLink">
+                        <label for="Project-StartDate">Start Date:</label>
+                        <input type="date" name="Project-StartDate" required>
+                        <label for="Project-EndDate">End Date:</label>
+                        <input type="date" name="Project-EndDate" required>
+                    </div>
+                </div>
+                <br>
+                <button type="button" onclick="addProject()">Add More Project</button>
+            </fieldset>
+
+            <fieldset id="certification-fields">
+                <legend>Certifications</legend>
+                <div id="my-certifications">
+                    <div class="certification-entry">
+                        <label for="certificationName">Certification Name:</label>
+                        <input type="text" name="certificationName" required>
+                        <label for="certificationDate">Certification Date:</label>
+                        <input type="date" name="certificationDate" required>
+                        <label for="certificationLink">Certification Link:</label>
+                        <input type="url" name="certificationLink">
+                    </div>
+                </div>
+                <br>
+                <button type="button" onclick="addCertification()">Add More Certification</button>
+            </fieldset>
+
+            <fieldset id="awards-feilds">
+                <legend>Awards</legend>
+                <div id="my-awrads">
+                    <div class="award-entry">
+                        <label for="awardName">Award Name:</label>
+                        <input type="text" name="awardName" required>
+                        <label for="awardDate">Award Date:</label>
+                        <input type="date" name="awardDate" required>
+                        <label for="awardLink">Award Link:</label>
+                        <input type="url" name="awardLink">
+                        <label for="summary">Summary:</label>
+                        <textarea name="summary" required></textarea>
+                    </div>
+                </div>
+                <br>
+                <button type="button" onclick="addAward()">Add More Award</button>
+            </fieldset>
+            <input type="hidden" name="templateType" id="templateType" value="">
+            <input type="submit" value="Submit">
+        </fieldset>
+    </form>
+</body>
+
+</html>

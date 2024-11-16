@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume2</title>
+</head>
+<body>
+    <h1>Resume Preview</h1>
+
+    <!-- Personal Info Section -->
+    <div>
+        <h2>{{.FirstName}} {{.LastName}}</h2>
+        <p>Email: {{.Email}}</p>
+        <p>Phone: {{.Phone}}</p>
+        <p>Website: {{.Website}}</p>
+        <p>Location: {{.Location}}</p>
+        <p>Profile: {{.Profile}}</p>
+    </div>
+
+    <!-- Experience Section -->
+    <div>
+        <h3>Experience</h3>
+        {{range .Experience}}
+        <div>
+            <h4>{{.Position}} at {{.Company}}</h4>
+            <p>{{.StartDate}} - {{.EndDate}}</p>
+            <p>Highlights:</p>
+            <ul>
+                {{range .Highlights}}
+                <li>{{.}}</li>
+                {{end}}
+            </ul>
+        </div>
+        {{end}}
+    </div>
+
+    <!-- Education Section -->
+    <div>
+        <h3>Education</h3>
+        {{range .Education}}
+        <div>
+            <h4>{{.Institution}}</h4>
+            <p>{{.Area}}, {{.StudyType}}</p>
+            <p>{{.StartDate}} - {{.EndDate}}</p>
+            <p>GPA: {{.GPA}}</p>
+        </div>
+        {{end}}
+    </div>
+
+    <!-- Skills Section -->
+    <div>
+        <h3>Skills</h3>
+        {{range .Skills}}
+        <div>
+            <p>{{.Name}} ({{.Level}})</p>
+            <p>Keywords: {{join .Keywords ", "}}</p>
+        </div>
+        {{end}}
+    </div>
+
+    <!-- Projects Section -->
+    <div>
+        <h3>Projects</h3>
+        {{range .Projects}}
+        <div>
+            <h4>{{.Name}}</h4>
+            <p>Description: {{.Description}}</p>
+            <p>Link: <a href="{{.Link}}" target="_blank">{{.Link}}</a></p>
+            <p>{{.StartDate}} - {{.EndDate}}</p>
+        </div>
+        {{end}}
+    </div>
+
+    <!-- Awards Section -->
+    <div>
+        <h3>Awards</h3>
+        {{range .Awards}}
+        <div>
+            <h4>{{.Title}}</h4>
+            <p>Date: {{.Date}}</p>
+            <p>Awarded By: {{.Awarder}}</p>
+            <p>Summary: {{.Summary}}</p>
+        </div>
+        {{end}}
+    </div>
+
+    <!-- Certificates Section -->
+    <div>
+        <h3>Certificates</h3>
+        {{range .Certificates}}
+        <div>
+            <p>{{.Title}}</p>
+            <p>Date: {{.Date}}</p>
+            <p>License: {{.License}}</p>
+        </div>
+        {{end}}
+    </div>
+
+    <!-- Languages Section -->
+    <div>
+        <h3>Languages</h3>
+        {{range .Languages}}
+        <div>
+            <p>{{.Language}} - {{.Fluency}}</p>
+        </div>
+        {{end}}
+    </div>    
+
+    <div>
+        <button onclick="downloadResume()">Download Resume</button>
+        <button onclick="goBackToEdit()">Edit Resume</button>
+    </div>
+
+    <script>
+    function downloadResume() {
+        window.location.href = '/downloadResume'; // Trigger server-side download
+    }
+
+    function goBackToEdit() {
+        window.location.href = '/resume'; // Go back to the form for editing
+    }
+    </script>    
+</body>
+</html>

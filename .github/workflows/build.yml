@@ -1,0 +1,89 @@
+name: Build and Test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build and Test Go Backend
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout the repository
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    # Step 2: Set up Go environment
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: 1.22.5  # Adjust this to match your Go version
+
+    # Step 3: Cache dependencies
+    - name: Cache Go Modules
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cache/go-build
+          ~/go/pkg
+        key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+        restore-keys: |
+          ${{ runner.os }}-go-
+
+    # Step 4: Install dependencies
+    - name: Install Go Dependencies
+      run: go mod tidy
+
+    # Step 5: Build the Go project
+    - name: Build Go Project
+      run: go build -v ./...
+
+    # Step 6: Run tests
+    - name: Run Go Tests
+      run: go test -v ./...
+
+  lint-frontend:
+    name: Lint Frontend Code
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout the repository
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    # Step 2: Set up Node.js (if using linters or build tools like ESLint, Prettier)
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18  # Adjust this to your preferred Node.js version
+
+    # Step 3: Install frontend dependencies (optional, if you're using npm/yarn)
+    - name: Install Frontend Dependencies
+      run: |
+        if [ -f package.json ]; then
+          npm install
+        fi
+
+    # Step 4: Run linters (e.g., ESLint or Prettier)
+    - name: Lint JavaScript and CSS
+      run: |
+        if [ -f package.json ]; then
+          npm run lint
+        else
+          echo "No linting configuration found. Skipping..."
+        fi
+
+  deploy:
+    name: Deploy Application
+    runs-on: ubuntu-latest
+    needs: [build, lint-frontend]
+
+    steps:
+    - name: Deploy to Server
+      run: |
+        echo "Add deployment logic here"

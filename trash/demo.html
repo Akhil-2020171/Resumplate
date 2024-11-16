@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web Terminal</title>
+    <style>
+      body {
+        background-color: #1e1e1e;
+        color: #00ff00;
+        font-family: "Courier New", Courier, monospace;
+        margin: 0;
+        padding: 0;
+      }
+
+      #terminal {
+        width: 100%;
+        height: 90vh;
+        overflow-y: auto;
+        padding: 10px;
+        box-sizing: border-box;
+      }
+
+      #input {
+        width: 100%;
+        border: none;
+        background: #1e1e1e;
+        color: #00ff00;
+        font-family: "Courier New", Courier, monospace;
+        font-size: 16px;
+        outline: none;
+        padding: 10px;
+        box-sizing: border-box;
+      }
+
+      .command {
+        color: #00ff00;
+      }
+
+      .output {
+        color: #ffffff;
+      }
+
+      .headers {
+        color: #bffc07;
+      }
+
+      @keyframes blink {
+        0% {
+          border-right-color: #00ff00;
+        }
+
+        50% {
+          border-right-color: transparent;
+        }
+
+        100% {
+          border-right-color: #00ff00;
+        }
+      }
+
+      #input::placeholder {
+        color: #00ff00;
+        opacity: 1;
+      }
+
+      #input {
+        border-right: 2px solid #00ff00;
+        animation: blink 1s step-end infinite;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="terminal">
+      <div class="headers">Welcome to the Web Terminal!</div>
+      <div class="headers">Type a command to get started...</div>
+    </div>
+    <input type="text" id="input" autofocus placeholder="Type a command..." />
+    <script>
+      const terminal = document.getElementById("terminal");
+      const input = document.getElementById("input");
+      const ws = new WebSocket("ws://localhost:8080/ws");
+
+      ws.onmessage = function (event) {
+        const message = document.createElement("div");
+        message.className = "output";
+        message.textContent = event.data;
+        terminal.appendChild(message);
+        terminal.scrollTop = terminal.scrollHeight;
+      };
+
+      input.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+          if (input.value === "clear") {
+            const commands = terminal.querySelectorAll(".command");
+            const outputs = terminal.querySelectorAll(".output");
+            commands.forEach((command) => terminal.removeChild(command));
+            outputs.forEach((output) => terminal.removeChild(output));
+            input.value = "";
+            return;
+          }
+
+          const command = document.createElement("div");
+          command.className = "command";
+          command.textContent = "> " + input.value;
+          terminal.appendChild(command);
+
+          ws.send(input.value);
+          input.value = "";
+        }
+      });
+    </script>
+  </body>
+</html>

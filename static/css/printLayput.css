@@ -1,0 +1,67 @@
+/* A4 Page Size (210mm x 297mm) */
+@page {
+    size: A4;
+    margin: 0;
+}
+body {
+    width: 210mm;
+    height: 297mm;
+    margin: 0;
+    padding: 10mm;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    overflow-y: auto; /* Allows scrolling only in main window */
+}
+/* Content container */
+.resume-content {
+    width: 100%;
+    height: auto; /* Ensure content can flow */
+    min-height: 90%; /* Ensures that the content takes most of the page */
+    overflow: hidden; /* Disable the scrollbar inside the div */
+    box-sizing: border-box;
+    margin-bottom: 10mm; /* Add some space at the bottom to prevent cutting off */
+}
+.print-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+.print-button:hover {
+    background-color: #0056b3;
+}
+
+/* Hide the print button in print view */
+@media print {
+    .print-button {
+        display: none;
+    }
+
+    /* Ensure content flows to multiple pages */
+    .resume-content {
+        page-break-before: auto; /* Allow content to start on the first page */
+        page-break-after: auto; /* Content should end with a break when necessary */
+        page-break-inside: avoid; /* Avoid breaks inside paragraphs, headings, etc. */
+    }
+
+    /* Apply automatic page breaks for each section */
+    .resume-content h1,
+    .resume-content h2,
+    .resume-content p,
+    .resume-content div {
+        page-break-before: auto;
+        page-break-after: auto;
+        page-break-inside: avoid;
+    }
+
+    /* Prevent content from overflowing off the page */
+    body {
+        margin: 0;
+        padding: 0;
+    }
+}

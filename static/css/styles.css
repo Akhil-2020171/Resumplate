@@ -1,0 +1,41 @@
+form {
+    width: 80%;
+    margin: 0 auto;
+}
+
+fieldset {
+    margin: 20px 0;
+    padding: 20px;
+}
+
+legend {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+label {
+    display: block;
+    margin: 10px 0;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    box-sizing: border-box;
+}
+
+input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border: none;
+    cursor: pointer;
+    width: auto;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
